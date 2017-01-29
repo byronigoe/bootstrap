@@ -119,7 +119,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
           return value;
         }
 
-        if (angular.isNumber(value)) {
+        if (!angular.isObject(value)) {
           value = new Date(value);
         }
 
