@@ -119,7 +119,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
           return value;
         }
 
-        if (angular.isNumber(value)) {
+        if (!angular.isDate(value)) {
           value = new Date(value);
         }
 
@@ -356,7 +356,7 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
     }
 
     if (angular.isString(value)) {
-      return !isNaN(parseDateString(value));
+      return !isNaN(parseDateString(value)) || value.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.000Z$/);
     }
 
     return false;
