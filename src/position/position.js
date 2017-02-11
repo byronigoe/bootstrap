@@ -239,7 +239,6 @@ angular.module('ui.bootstrap.position', [])
           parentOffset.left += parent.clientLeft - parent.scrollLeft;
           var parentStyle = $window.getComputedStyle(parent);
           parentOffset.top += this.parseStyle(parentStyle.paddingTop);
-          console.log("left: " + this.parseStyle(parentStyle.paddingLeft));
           parentOffset.left += this.parseStyle(parentStyle.paddingLeft);
         }
 
@@ -443,7 +442,7 @@ angular.module('ui.bootstrap.position', [])
         // need to read from prop to support tests.
         var targetWidth = angular.isDefined(targetElem.offsetWidth) ? targetElem.offsetWidth : targetElem.prop('offsetWidth');
         var targetHeight = angular.isDefined(targetElem.offsetHeight) ? targetElem.offsetHeight : targetElem.prop('offsetHeight');
-        console.log("w x h: " + targetWidth + " x " + targetHeight);
+
         placement = this.parsePlacement(placement);
 
         var hostElemPos = appendToBody ? this.offset(hostElem) : this.position(hostElem);
@@ -457,7 +456,6 @@ angular.module('ui.bootstrap.position', [])
             width: targetWidth + Math.round(Math.abs(this.parseStyle(targetElemStyle.marginLeft) + this.parseStyle(targetElemStyle.marginRight))),
             height: targetHeight + Math.round(Math.abs(this.parseStyle(targetElemStyle.marginTop) + this.parseStyle(targetElemStyle.marginBottom)))
           };
-          console.log("adj w x h: " + adjustedSize.width + " x " + adjustedSize.height);
 
           placement[0] = placement[0] === 'top' && adjustedSize.height > viewportOffset.top && adjustedSize.height <= viewportOffset.bottom ? 'bottom' :
                          placement[0] === 'bottom' && adjustedSize.height > viewportOffset.bottom && adjustedSize.height <= viewportOffset.top ? 'top' :
@@ -504,7 +502,7 @@ angular.module('ui.bootstrap.position', [])
             targetElemPos.left = hostElemPos.left + hostElemPos.width;
             break;
         }
-        console.log("left, width, width: " + hostElemPos.left + ", " + hostElemPos.width + ", " + targetWidth);
+
         switch (placement[1]) {
           case 'top':
             targetElemPos.top = hostElemPos.top;
