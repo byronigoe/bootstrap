@@ -58,7 +58,7 @@ angular.module('ui.bootstrap.position', [])
       /**
        * Provides the closest positioned ancestor.
        *
-       * @param {element} element - The element to get the offest parent for.
+       * @param {element} element - The element to get the offset parent for.
        *
        * @returns {element} The closest positioned ancestor.
        */
@@ -169,7 +169,7 @@ angular.module('ui.bootstrap.position', [])
        * @param {boolean=} [includeHidden=false] - Should scroll style of 'hidden' be considered,
        *   default is false.
        * @param {boolean=} [includeSelf=false] - Should the element being passed be
-       * included in the scrollable llokup.
+       * included in the scrollable lookup.
        *
        * @returns {element} A HTML element.
        */
@@ -221,11 +221,11 @@ angular.module('ui.bootstrap.position', [])
        *     <li>**left**: distance to left edge of offset parent</li>
        *   </ul>
        */
-      position: function(elem, includeMagins) {
+      position: function(elem, includeMargins) {
         elem = this.getRawNode(elem);
 
         var elemOffset = this.offset(elem);
-        if (includeMagins) {
+        if (includeMargins) {
           var elemStyle = $window.getComputedStyle(elem);
           elemOffset.top -= this.parseStyle(elemStyle.marginTop);
           elemOffset.left -= this.parseStyle(elemStyle.marginLeft);
@@ -237,6 +237,10 @@ angular.module('ui.bootstrap.position', [])
           parentOffset = this.offset(parent);
           parentOffset.top += parent.clientTop - parent.scrollTop;
           parentOffset.left += parent.clientLeft - parent.scrollLeft;
+          var parentStyle = $window.getComputedStyle(parent);
+          parentOffset.top += this.parseStyle(parentStyle.paddingTop);
+          console.log("left: " + this.parseStyle(parentStyle.paddingLeft));
+          parentOffset.left += this.parseStyle(parentStyle.paddingLeft);
         }
 
         return {
@@ -433,12 +437,13 @@ angular.module('ui.bootstrap.position', [])
        */
       positionElements: function(hostElem, targetElem, placement, appendToBody) {
         hostElem = this.getRawNode(hostElem);
+        if (hostElem.parentElement && hostElem.parentElement.classList && hostElem.parentElement.classList.contains("input-group")) hostElem = hostElem.parentElement;
         targetElem = this.getRawNode(targetElem);
 
         // need to read from prop to support tests.
         var targetWidth = angular.isDefined(targetElem.offsetWidth) ? targetElem.offsetWidth : targetElem.prop('offsetWidth');
         var targetHeight = angular.isDefined(targetElem.offsetHeight) ? targetElem.offsetHeight : targetElem.prop('offsetHeight');
-
+        console.log("w x h: " + targetWidth + " x " + targetHeight);
         placement = this.parsePlacement(placement);
 
         var hostElemPos = appendToBody ? this.offset(hostElem) : this.position(hostElem);
@@ -452,6 +457,7 @@ angular.module('ui.bootstrap.position', [])
             width: targetWidth + Math.round(Math.abs(this.parseStyle(targetElemStyle.marginLeft) + this.parseStyle(targetElemStyle.marginRight))),
             height: targetHeight + Math.round(Math.abs(this.parseStyle(targetElemStyle.marginTop) + this.parseStyle(targetElemStyle.marginBottom)))
           };
+          console.log("adj w x h: " + adjustedSize.width + " x " + adjustedSize.height);
 
           placement[0] = placement[0] === 'top' && adjustedSize.height > viewportOffset.top && adjustedSize.height <= viewportOffset.bottom ? 'bottom' :
                          placement[0] === 'bottom' && adjustedSize.height > viewportOffset.bottom && adjustedSize.height <= viewportOffset.top ? 'top' :
@@ -498,7 +504,7 @@ angular.module('ui.bootstrap.position', [])
             targetElemPos.left = hostElemPos.left + hostElemPos.width;
             break;
         }
-
+        console.log("left, width, width: " + hostElemPos.left + ", " + hostElemPos.width + ", " + targetWidth);
         switch (placement[1]) {
           case 'top':
             targetElemPos.top = hostElemPos.top;
