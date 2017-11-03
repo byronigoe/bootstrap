@@ -120,7 +120,11 @@ function($scope, $element, $attrs, $compile, $log, $parse, $window, $document, $
         }
 
         if (!angular.isDate(value)) {
-          value = new Date(value);
+          if (angular.isString(value) && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+            value = new Date(value + ' 00:00:00'); // force to local timezone rather than UTC
+          } else {
+            value = new Date(value);
+          }
         }
 
         $scope.date = dateParser.fromTimezone(value, ngModelOptions.getOption('timezone'));
