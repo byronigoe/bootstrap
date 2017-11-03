@@ -436,7 +436,9 @@ angular.module('ui.bootstrap.position', [])
        */
       positionElements: function(hostElem, targetElem, placement, appendToBody) {
         hostElem = this.getRawNode(hostElem);
-        if (hostElem.parentElement && hostElem.parentElement.classList && hostElem.parentElement.classList.contains("input-group")) hostElem = hostElem.parentElement;
+        if (hostElem.parentElement && hostElem.parentElement.classList && hostElem.parentElement.classList.contains("input-group")) {
+          hostElem = hostElem.parentElement;
+        }
         targetElem = this.getRawNode(targetElem);
 
         // need to read from prop to support tests.
