@@ -76,6 +76,13 @@ PM> Install-Package Angular.UI.Bootstrap
 
 Head over to https://angular-ui.github.io/bootstrap/ and hit the *Custom build* button to create your own custom UI Bootstrap build, just the way you like it.
 
+Building a custom package from source can be done with these steps:
+* npm install
+* grunt html2js
+* grunt build:typeahead:datepickerPopup [or whatever modules you want]
+
+Instead of copying a locally built custom package, you may want to use: npm link
+
 #### Manual download
 
 After downloading dependencies (or better yet, referencing them from your favorite CDN) you need to download build version of this project. All the files and their purposes are described here:
